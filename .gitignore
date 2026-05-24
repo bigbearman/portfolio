@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Local env (NEVER commit)
+.env
+.env.local
+.dev.vars
+
+# Wrangler
+.wrangler/
+
+# Uploads (drag-drop photos)
+uploads/*
+!uploads/.gitkeep
