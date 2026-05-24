@@ -528,6 +528,36 @@ function Experience({ lang }) {
 }
 
 /* -------------------- projects -------------------- */
+function ProjSlideshow({ shots }) {
+  const [idx, setIdx] = useState(0);
+  const [fade, setFade] = useState(true);
+  useEffect(() => {
+    if (shots.length < 2) return;
+    const t = setInterval(() => {
+      setFade(false);
+      setTimeout(() => {
+        setIdx((i) => (i + 1) % shots.length);
+        setFade(true);
+      }, 300);
+    }, 3000);
+    return () => clearInterval(t);
+  }, [shots.length]);
+  return (
+    <img
+      src={shots[idx]}
+      alt="project screenshot"
+      style={{
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+        opacity: fade ? 1 : 0,
+        transition: "opacity 0.3s ease",
+        display: "block",
+      }}
+    />
+  );
+}
+
 function Projects({ lang }) {
   return (
     <section id="projects">
@@ -537,6 +567,7 @@ function Projects({ lang }) {
           {C.projects.map((p, i) => {
             const inProg = p.status === "in-progress";
             const placeholder = p.status === "placeholder";
+            const hasShots = p.screenshots && p.screenshots.length > 0;
             return (
               <article
                 key={i}
@@ -553,15 +584,19 @@ function Projects({ lang }) {
                   </span>
                 </div>
                 <div className="proj__hero">
-                  <span className="label-pill">
-                    {inProg
-                      ? lang === "en"
-                        ? "preview"
-                        : "xem trước"
-                      : lang === "en"
-                        ? "drop screenshot"
-                        : "thả ảnh chụp"}
-                  </span>
+                  {hasShots ? (
+                    <ProjSlideshow shots={p.screenshots} />
+                  ) : (
+                    <span className="label-pill">
+                      {inProg
+                        ? lang === "en"
+                          ? "preview"
+                          : "xem trước"
+                        : lang === "en"
+                          ? "drop screenshot"
+                          : "thả ảnh chụp"}
+                    </span>
+                  )}
                 </div>
                 <div className="proj__body">
                   <div className="proj__status">
