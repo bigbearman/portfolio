@@ -29,6 +29,7 @@ git push -u origin main
    - Framework preset: **None**
    - Build command: `npm run build`
    - Build output directory: `out`
+   - Node version: 22 (xem `.node-version`)
 3. **Save and Deploy**
 
 ## 4. Thêm environment variables
@@ -77,8 +78,8 @@ Project → **Custom domains** → **Set up a custom domain** → nhập `kiendt
 
 ## Nếu chạy local để test
 
-Cloudflare Pages Functions không chạy được khi mở file `index.html` trực tiếp
-(form sẽ báo lỗi network). Cách test local:
+Cloudflare Pages Functions không chạy được với `next dev` (form sẽ báo lỗi
+network). Cách test local:
 
 ```bash
 npm run build

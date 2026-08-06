@@ -30,7 +30,7 @@ export async function generateMetadata({
     metadataBase: new URL(siteUrl),
     alternates: {
       canonical: `/${lang}/`,
-      languages: { en: "/en/", vi: "/vi/" },
+      languages: { en: "/en/", vi: "/vi/", "x-default": "/en/" },
     },
     openGraph: {
       title,

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 export default function TypedName({ text }: { text: string }) {
-  const [shown, setShown] = useState("");
+  const [shown, setShown] = useState(text);
 
   useEffect(() => {
     setShown("");

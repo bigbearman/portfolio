@@ -16,7 +16,6 @@ interface Localized<T> {
 
 interface MetaContent {
   name: string;
-  handle: string;
   titleEn: string;
   titleVi: string;
   location: string;
@@ -103,6 +102,8 @@ interface ContactErrors {
   rate_limited: string;
   bad_email: string;
   bad_message: string;
+  bad_name: string;
+  invalid_json: string;
   server_not_configured: string;
   send_failed: string;
   network_error: string;
@@ -139,7 +140,6 @@ export interface PortfolioContent {
 export const content: PortfolioContent = {
   meta: {
     name: "Kien Duong",
-    handle: "kiendt",
     titleEn: "Senior Frontend Engineer",
     titleVi: "Kỹ sư Frontend Senior",
     location: "Hanoi, Vietnam",
@@ -507,6 +507,8 @@ export const content: PortfolioContent = {
         rate_limited: "Too many tries — please wait a minute.",
         bad_email: "That email doesn't look right.",
         bad_message: "Message is too short or too long.",
+        bad_name: "Please enter your name.",
+        invalid_json: "Couldn't read that — please try again.",
         server_not_configured:
           "Server isn't configured yet — try email instead.",
         send_failed: "Couldn't deliver. Please email me directly.",
@@ -528,6 +530,8 @@ export const content: PortfolioContent = {
         rate_limited: "Gửi quá nhanh — anh đợi 1 phút rồi thử lại nhé.",
         bad_email: "Email chưa đúng định dạng.",
         bad_message: "Nội dung quá ngắn hoặc quá dài.",
+        bad_name: "Anh nhập tên giúp em nhé.",
+        invalid_json: "Không đọc được dữ liệu — anh thử lại nhé.",
         server_not_configured:
           "Server chưa cấu hình xong — anh gửi mail trực tiếp giúp em nhé.",
         send_failed: "Không gửi được. Anh email trực tiếp giúp em nhé.",

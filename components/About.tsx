@@ -31,9 +31,9 @@ export default function About({ lang }: { lang: Lang }) {
               }
               if (ln.kind === "h") {
                 return (
-                  <h1 key={i} className="md-h1">
+                  <h2 key={i} className="md-h1">
                     {ln.text.replace(/^#+\s*/, "")}
-                  </h1>
+                  </h2>
                 );
               }
               if (ln.kind === "li") {

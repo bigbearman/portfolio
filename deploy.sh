@@ -7,7 +7,7 @@ npm run build
 
 git add app/ components/ content.ts public/ functions/api/contact.js \
         wrangler.jsonc next.config.ts tsconfig.json package.json package-lock.json \
-        .gitignore
+        .gitignore SETUP.md deploy.sh
 
 git diff --cached --quiet && echo "Nothing to commit." && exit 0
 
