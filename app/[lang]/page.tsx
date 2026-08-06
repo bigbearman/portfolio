@@ -3,6 +3,7 @@ import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Skills from "@/components/Skills";
+import Experience from "@/components/Experience";
 
 export function generateStaticParams() {
   return [{ lang: "en" }, { lang: "vi" }];
@@ -21,6 +22,7 @@ export default async function Page({
         <Hero lang={lang} />
         <About lang={lang} />
         <Skills lang={lang} />
+        <Experience lang={lang} />
       </main>
     </>
   );
