@@ -4,6 +4,7 @@ import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Skills from "@/components/Skills";
 import Experience from "@/components/Experience";
+import Projects from "@/components/Projects";
 
 export function generateStaticParams() {
   return [{ lang: "en" }, { lang: "vi" }];
@@ -23,6 +24,7 @@ export default async function Page({
         <About lang={lang} />
         <Skills lang={lang} />
         <Experience lang={lang} />
+        <Projects lang={lang} />
       </main>
     </>
   );
