@@ -1,5 +1,6 @@
-import { content, toLang } from "@/content";
+import { toLang } from "@/content";
 import Nav from "@/components/Nav";
+import Hero from "@/components/Hero";
 
 export function generateStaticParams() {
   return [{ lang: "en" }, { lang: "vi" }];
@@ -14,9 +15,9 @@ export default async function Page({
   return (
     <>
       <Nav lang={lang} />
-      <p>
-        {lang}: {content.meta.name}
-      </p>
+      <main>
+        <Hero lang={lang} />
+      </main>
     </>
   );
 }
