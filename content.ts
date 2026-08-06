@@ -1,5 +1,142 @@
-// Bilingual content + structured CV data
-window.PORTFOLIO_CONTENT = {
+export type Lang = "en" | "vi";
+
+// Next.js 15's generated route types check `params` against a structural
+// `{ [key]: string }` shape with no narrowing from `generateStaticParams`,
+// so every `app/[lang]/*` entry point (layout, page, opengraph-image) must
+// declare `params: Promise<{ lang: string }>` and narrow with this helper —
+// declaring `Promise<{ lang: Lang }>` directly fails `next build`.
+export function toLang(value: string): Lang {
+  return value === "vi" ? "vi" : "en";
+}
+
+interface Localized<T> {
+  en: T;
+  vi: T;
+}
+
+interface MetaContent {
+  name: string;
+  handle: string;
+  titleEn: string;
+  titleVi: string;
+  location: string;
+  timezone: string;
+  email: string;
+  phone: string;
+  site: string;
+  github: string;
+  linkedin: string;
+  yearsExp: number;
+  resumeUrl: string;
+}
+
+interface NavLabels {
+  about: string;
+  skills: string;
+  work: string;
+  projects: string;
+  lab: string;
+  contact: string;
+  resume: string;
+}
+
+interface HeroContent {
+  greet: string;
+  role: string;
+  sub: string;
+  tags: string[];
+  ctaPrimary: string;
+  ctaSecondary: string;
+  commands: [string, string];
+}
+
+type AboutLineKind = "h" | "p" | "li";
+
+interface AboutLine {
+  kind: AboutLineKind;
+  text: string;
+}
+
+interface AboutContent {
+  file: string;
+  lines: AboutLine[];
+}
+
+interface SkillGroup {
+  key: string;
+  label: Localized<string>;
+  items: string[];
+}
+
+interface ExperienceEntry {
+  role: Localized<string>;
+  org: string;
+  where: string;
+  period: Localized<string>;
+  duration: Localized<string>;
+  tag?: "current";
+  bullets: Localized<string[]>;
+}
+
+interface ProjectScreenshot {
+  src: string;
+  alt: Localized<string>;
+}
+
+interface Project {
+  status?: "in-progress";
+  name: string;
+  stack: string[];
+  blurb: Localized<string>;
+  screenshots?: ProjectScreenshot[];
+  year?: number;
+}
+
+interface LabCard {
+  tag: string;
+  title: Localized<string>;
+  stack: string[];
+  log: string[];
+}
+
+interface ContactErrors {
+  rate_limited: string;
+  bad_email: string;
+  bad_message: string;
+  server_not_configured: string;
+  send_failed: string;
+  network_error: string;
+  generic: string;
+}
+
+interface ContactContent {
+  title: string;
+  sub: string;
+  fields: { name: string; email: string; message: string };
+  send: string;
+  sent: string;
+  errors: ContactErrors;
+}
+
+interface FooterContent {
+  built: string;
+  rights: string;
+}
+
+export interface PortfolioContent {
+  meta: MetaContent;
+  nav: Localized<NavLabels>;
+  hero: Localized<HeroContent>;
+  about: Localized<AboutContent>;
+  skills: { groups: SkillGroup[] };
+  experience: ExperienceEntry[];
+  projects: Project[];
+  lab: LabCard[];
+  contact: Localized<ContactContent>;
+  footer: Localized<FooterContent>;
+}
+
+export const content: PortfolioContent = {
   meta: {
     name: "Kien Duong",
     handle: "kiendt",
@@ -13,7 +150,7 @@ window.PORTFOLIO_CONTENT = {
     github: "bigbearman",
     linkedin: "kien-duong-fullstack",
     yearsExp: 10,
-    resumeUrl: "Kien_Duong_CV.pdf",
+    resumeUrl: "/Kien_Duong_CV.pdf",
   },
 
   nav: {
@@ -277,30 +414,36 @@ window.PORTFOLIO_CONTENT = {
         vi: "Nền tảng chatbot AI cho bệnh nhân ung thư. Kết hợp pgvector semantic search để ghép người dùng với thử nghiệm lâm sàng phù hợp, giải thích kết quả bằng ngôn ngữ đơn giản.",
       },
       screenshots: [
-        "screenshots/healthimpact-chat.png",
-        "screenshots/healthimpact-trials.png",
-        "screenshots/healthimpact-profile.png",
-        "screenshots/healthimpact-register.png",
+        {
+          src: "/screenshots/healthimpact-chat.png",
+          alt: {
+            en: "HealthImpact.AI chat screen matching a patient to a clinical trial",
+            vi: "Màn hình chat HealthImpact.AI ghép bệnh nhân với thử nghiệm lâm sàn",
+          },
+        },
+        {
+          src: "/screenshots/healthimpact-trials.png",
+          alt: {
+            en: "List of matched clinical trials in HealthImpact.AI",
+            vi: "Danh sách thử nghiệm lâm sàn phù hợp trong HealthImpact.AI",
+          },
+        },
+        {
+          src: "/screenshots/healthimpact-profile.png",
+          alt: {
+            en: "Patient profile screen in HealthImpact.AI",
+            vi: "Màn hình hồ sơ bệnh nhân trong HealthImpact.AI",
+          },
+        },
+        {
+          src: "/screenshots/healthimpact-register.png",
+          alt: {
+            en: "Registration screen for HealthImpact.AI",
+            vi: "Màn hình đăng ký của HealthImpact.AI",
+          },
+        },
       ],
       year: 2025,
-    },
-    {
-      status: "placeholder",
-      name: "Project Two",
-      stack: ["Next.js", "TypeScript", "Vercel"],
-      blurb: {
-        en: "Case study coming soon — drop a project description here.",
-        vi: "Case study sắp ra mắt — thêm mô tả dự án ở đây.",
-      },
-    },
-    {
-      status: "placeholder",
-      name: "Project Three",
-      stack: ["React", "Node.js", "PostgreSQL"],
-      blurb: {
-        en: "Case study coming soon — drop a project description here.",
-        vi: "Case study sắp ra mắt — thêm mô tả dự án ở đây.",
-      },
     },
   ],
 
@@ -360,6 +503,16 @@ window.PORTFOLIO_CONTENT = {
       },
       send: "send message",
       sent: "message sent. talk soon →",
+      errors: {
+        rate_limited: "Too many tries — please wait a minute.",
+        bad_email: "That email doesn't look right.",
+        bad_message: "Message is too short or too long.",
+        server_not_configured:
+          "Server isn't configured yet — try email instead.",
+        send_failed: "Couldn't deliver. Please email me directly.",
+        network_error: "Network error. Please try again.",
+        generic: "Something went wrong. Please try again.",
+      },
     },
     vi: {
       title: "Cùng trao đổi nhé",
@@ -371,6 +524,16 @@ window.PORTFOLIO_CONTENT = {
       },
       send: "gửi tin nhắn",
       sent: "đã gửi. mình sẽ phản hồi sớm →",
+      errors: {
+        rate_limited: "Gửi quá nhanh — anh đợi 1 phút rồi thử lại nhé.",
+        bad_email: "Email chưa đúng định dạng.",
+        bad_message: "Nội dung quá ngắn hoặc quá dài.",
+        server_not_configured:
+          "Server chưa cấu hình xong — anh gửi mail trực tiếp giúp em nhé.",
+        send_failed: "Không gửi được. Anh email trực tiếp giúp em nhé.",
+        network_error: "Lỗi mạng. Anh thử lại nhé.",
+        generic: "Có lỗi xảy ra. Anh thử lại nhé.",
+      },
     },
   },
 
