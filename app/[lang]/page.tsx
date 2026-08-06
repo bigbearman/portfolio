@@ -7,6 +7,7 @@ import Experience from "@/components/Experience";
 import Projects from "@/components/Projects";
 import Lab from "@/components/Lab";
 import Contact from "@/components/Contact";
+import Footer from "@/components/Footer";
 
 export function generateStaticParams() {
   return [{ lang: "en" }, { lang: "vi" }];
@@ -30,6 +31,7 @@ export default async function Page({
         <Lab lang={lang} />
         <Contact lang={lang} />
       </main>
+      <Footer lang={lang} />
     </>
   );
 }
