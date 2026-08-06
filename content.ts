@@ -418,14 +418,14 @@ export const content: PortfolioContent = {
           src: "/screenshots/healthimpact-chat.png",
           alt: {
             en: "HealthImpact.AI chat screen matching a patient to a clinical trial",
-            vi: "Màn hình chat HealthImpact.AI ghép bệnh nhân với thử nghiệm lâm sàn",
+            vi: "Màn hình chat HealthImpact.AI ghép bệnh nhân với thử nghiệm lâm sàng",
           },
         },
         {
           src: "/screenshots/healthimpact-trials.png",
           alt: {
             en: "List of matched clinical trials in HealthImpact.AI",
-            vi: "Danh sách thử nghiệm lâm sàn phù hợp trong HealthImpact.AI",
+            vi: "Danh sách thử nghiệm lâm sàng phù hợp trong HealthImpact.AI",
           },
         },
         {
