@@ -1,4 +1,5 @@
 import { toLang } from "@/content";
+import JsonLd from "@/components/JsonLd";
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
@@ -21,6 +22,7 @@ export default async function Page({
   const lang = toLang((await params).lang);
   return (
     <>
+      <JsonLd lang={lang} />
       <Nav lang={lang} />
       <main>
         <Hero lang={lang} />
