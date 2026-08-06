@@ -13,6 +13,7 @@
 - TypeScript strict mode, no `any` (project rule) — every new file is `.ts`/`.tsx` with explicit types, no implicit `any`.
 - `next.config.ts`: `output: 'export'`, `trailingSlash: true`, `images: { unoptimized: true }` — no adapter (no OpenNext, no next-on-pages).
 - No i18n library — `Lang = "en" | "vi"`, content keyed by hand in `content.ts`.
+- Every `app/[lang]/*` route entry point (`layout.tsx`, `page.tsx`, `opengraph-image.tsx`) declares `params: Promise<{ lang: string }>` and narrows with `content.ts`'s `toLang()` — never `Promise<{ lang: Lang }>` or `Promise<{ lang: "en" | "vi" }>` directly, which fails `next build`'s route-type check under Next.js 15 (confirmed during Task 1's review; see that task's ledger entry).
 - No visual/UX redesign — every class name and DOM structure below is a direct port of the current `app.jsx` / `styles.css`, not a rewrite.
 - Every asset path in content/components is root-absolute (`/profile.webp`, `/screenshots/...`, `/Kien_Duong_CV.pdf`) — pages live under `/en/` and `/vi/`, so relative paths break.
 - `functions/api/contact.js` is not modified in this plan. It stays at the repo root; Cloudflare Pages serves it independently of the static `out/` directory.
@@ -176,12 +177,21 @@ git commit -m "chore: scaffold Next.js app with en/vi walking skeleton"
 
 **Interfaces:**
 - Consumes: nothing new.
-- Produces: `export type Lang = "en" | "vi"`, `export interface PortfolioContent { ... }`, `export const content: PortfolioContent`. Every component task from here on imports `{ content, type Lang } from "@/content"`.
+- Produces: `export type Lang = "en" | "vi"`, `export function toLang(value: string): Lang`, `export interface PortfolioContent { ... }`, `export const content: PortfolioContent`. Every component task from here on imports `{ content, type Lang } from "@/content"`; every `app/[lang]/*` route entry point (layout, page, opengraph-image) additionally imports `toLang` to narrow its `params.lang` (see the `next build` type-checking note inside the code block below).
 
 - [ ] **Step 1: Create `content.ts`**
 
 ```ts
 export type Lang = "en" | "vi";
+
+// Next.js 15's generated route types check `params` against a structural
+// `{ [key]: string }` shape with no narrowing from `generateStaticParams`,
+// so every `app/[lang]/*` entry point (layout, page, opengraph-image) must
+// declare `params: Promise<{ lang: string }>` and narrow with this helper —
+// declaring `Promise<{ lang: Lang }>` directly fails `next build`.
+export function toLang(value: string): Lang {
+  return value === "vi" ? "vi" : "en";
+}
 
 interface Localized<T> {
   en: T;
@@ -695,7 +705,7 @@ export const content: PortfolioContent = {
 Edit `app/[lang]/page.tsx`:
 
 ```tsx
-import { content, type Lang } from "@/content";
+import { content, toLang } from "@/content";
 
 export function generateStaticParams() {
   return [{ lang: "en" }, { lang: "vi" }];
@@ -704,9 +714,9 @@ export function generateStaticParams() {
 export default async function Page({
   params,
 }: {
-  params: Promise<{ lang: Lang }>;
+  params: Promise<{ lang: string }>;
 }) {
-  const { lang } = await params;
+  const lang = toLang((await params).lang);
   return <p>{lang}: {content.meta.name}</p>;
 }
 ```
@@ -863,6 +873,7 @@ and replace it with (the avatar is now a plain `<img>`, not the old `<image-slot
 
 ```tsx
 import { JetBrains_Mono } from "next/font/google";
+import { toLang } from "@/content";
 import "../globals.css";
 
 const jetbrainsMono = JetBrains_Mono({
@@ -880,9 +891,9 @@ export default async function LangLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ lang: "en" | "vi" }>;
+  params: Promise<{ lang: string }>;
 }) {
-  const { lang } = await params;
+  const lang = toLang((await params).lang);
 
   return (
     <html lang={lang} data-theme="dark">
@@ -1033,7 +1044,7 @@ export default function Nav({ lang }: { lang: Lang }) {
 Edit `app/[lang]/page.tsx`:
 
 ```tsx
-import { content, type Lang } from "@/content";
+import { content, toLang } from "@/content";
 import Nav from "@/components/Nav";
 
 export function generateStaticParams() {
@@ -1043,9 +1054,9 @@ export function generateStaticParams() {
 export default async function Page({
   params,
 }: {
-  params: Promise<{ lang: Lang }>;
+  params: Promise<{ lang: string }>;
 }) {
-  const { lang } = await params;
+  const lang = toLang((await params).lang);
   return (
     <>
       <Nav lang={lang} />
@@ -1255,7 +1266,7 @@ export default function Hero({ lang }: { lang: Lang }) {
 Edit `app/[lang]/page.tsx`:
 
 ```tsx
-import { type Lang } from "@/content";
+import { toLang } from "@/content";
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 
@@ -1266,9 +1277,9 @@ export function generateStaticParams() {
 export default async function Page({
   params,
 }: {
-  params: Promise<{ lang: Lang }>;
+  params: Promise<{ lang: string }>;
 }) {
-  const { lang } = await params;
+  const lang = toLang((await params).lang);
   return (
     <>
       <Nav lang={lang} />
@@ -2088,7 +2099,7 @@ export default function Footer({ lang }: { lang: Lang }) {
 - [ ] **Step 2: Finalize `app/[lang]/page.tsx`**
 
 ```tsx
-import { type Lang } from "@/content";
+import { toLang } from "@/content";
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
@@ -2106,9 +2117,9 @@ export function generateStaticParams() {
 export default async function Page({
   params,
 }: {
-  params: Promise<{ lang: Lang }>;
+  params: Promise<{ lang: string }>;
 }) {
-  const { lang } = await params;
+  const lang = toLang((await params).lang);
   return (
     <>
       <Nav lang={lang} />
@@ -2205,14 +2216,14 @@ Add this import and function above the existing `LangLayout` (keep the rest of t
 
 ```tsx
 import type { Metadata } from "next";
-import { content, type Lang } from "@/content";
+import { content, toLang } from "@/content";
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ lang: Lang }>;
+  params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
-  const { lang } = await params;
+  const lang = toLang((await params).lang);
   const m = content.meta;
   const title = `${m.name} — ${lang === "en" ? m.titleEn : m.titleVi}`;
   const description = content.hero[lang].sub;
@@ -2244,7 +2255,7 @@ export async function generateMetadata({
 }
 ```
 
-Change the layout's own param type from `{ lang: "en" | "vi" }` to the imported `Lang` type in both `generateStaticParams`-adjacent function signature and `LangLayout`, so the file has a single source of truth for the type.
+`LangLayout` itself (added in Task 3) already declares `params: Promise<{ lang: string }>` and narrows with `toLang` — leave it as is; `generateMetadata` above uses the identical pattern so the file has one consistent convention.
 
 - [ ] **Step 3: Render `JsonLd` in the page**
 
@@ -2294,7 +2305,7 @@ git commit -m "feat: add JSON-LD and per-language SEO metadata"
 
 ```tsx
 import { ImageResponse } from "next/og";
-import { content, type Lang } from "@/content";
+import { content, toLang } from "@/content";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -2303,8 +2314,8 @@ export function generateStaticParams() {
   return [{ lang: "en" }, { lang: "vi" }];
 }
 
-export default async function OgImage({ params }: { params: Promise<{ lang: Lang }> }) {
-  const { lang } = await params;
+export default async function OgImage({ params }: { params: Promise<{ lang: string }> }) {
+  const lang = toLang((await params).lang);
   const m = content.meta;
   const role = lang === "en" ? m.titleEn : m.titleVi;
 
