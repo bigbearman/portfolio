@@ -5,6 +5,7 @@ import About from "@/components/About";
 import Skills from "@/components/Skills";
 import Experience from "@/components/Experience";
 import Projects from "@/components/Projects";
+import Lab from "@/components/Lab";
 
 export function generateStaticParams() {
   return [{ lang: "en" }, { lang: "vi" }];
@@ -25,6 +26,7 @@ export default async function Page({
         <Skills lang={lang} />
         <Experience lang={lang} />
         <Projects lang={lang} />
+        <Lab lang={lang} />
       </main>
     </>
   );
