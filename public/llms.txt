@@ -1,0 +1,23 @@
+# Kien Duong
+
+> Senior Frontend Engineer (10+ years), based in Hanoi, Vietnam (GMT+7).
+> React, Next.js, TypeScript. Currently building an AI chatbot platform for
+> healthcare (React + Laravel + pgvector) and experimenting with autonomous
+> AI agent systems for dev workflow automation.
+
+Open to senior frontend roles, remote-first or hybrid, and freelance /
+contract work.
+
+## Pages
+
+- [Portfolio (English)](https://kiendt.dev/en/): experience, skills,
+  projects, and contact form.
+- [Portfolio (Vietnamese)](https://kiendt.dev/vi/): same content in
+  Vietnamese.
+- [Résumé (PDF)](https://kiendt.dev/Kien_Duong_CV.pdf)
+
+## Contact
+
+- Email: kienduong.hust@gmail.com
+- GitHub: https://github.com/bigbearman
+- LinkedIn: https://linkedin.com/in/kien-duong-fullstack

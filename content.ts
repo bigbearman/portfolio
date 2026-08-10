@@ -1,8 +1,145 @@
-// Bilingual content + structured CV data
-window.PORTFOLIO_CONTENT = {
+export type Lang = "en" | "vi";
+
+// Next.js 15's generated route types check `params` against a structural
+// `{ [key]: string }` shape with no narrowing from `generateStaticParams`,
+// so every `app/[lang]/*` entry point (layout, page, opengraph-image) must
+// declare `params: Promise<{ lang: string }>` and narrow with this helper —
+// declaring `Promise<{ lang: Lang }>` directly fails `next build`.
+export function toLang(value: string): Lang {
+  return value === "vi" ? "vi" : "en";
+}
+
+interface Localized<T> {
+  en: T;
+  vi: T;
+}
+
+interface MetaContent {
+  name: string;
+  titleEn: string;
+  titleVi: string;
+  location: string;
+  timezone: string;
+  email: string;
+  phone: string;
+  site: string;
+  github: string;
+  linkedin: string;
+  yearsExp: number;
+  resumeUrl: string;
+}
+
+interface NavLabels {
+  about: string;
+  skills: string;
+  work: string;
+  projects: string;
+  lab: string;
+  contact: string;
+  resume: string;
+}
+
+interface HeroContent {
+  greet: string;
+  role: string;
+  sub: string;
+  tags: string[];
+  ctaPrimary: string;
+  ctaSecondary: string;
+  commands: [string, string];
+}
+
+type AboutLineKind = "h" | "p" | "li";
+
+interface AboutLine {
+  kind: AboutLineKind;
+  text: string;
+}
+
+interface AboutContent {
+  file: string;
+  lines: AboutLine[];
+}
+
+interface SkillGroup {
+  key: string;
+  label: Localized<string>;
+  items: string[];
+}
+
+interface ExperienceEntry {
+  role: Localized<string>;
+  org: string;
+  where: string;
+  period: Localized<string>;
+  duration: Localized<string>;
+  tag?: "current";
+  bullets: Localized<string[]>;
+}
+
+interface ProjectScreenshot {
+  src: string;
+  alt: Localized<string>;
+}
+
+interface Project {
+  status?: "in-progress";
+  name: string;
+  stack: string[];
+  blurb: Localized<string>;
+  screenshots?: ProjectScreenshot[];
+  year?: number;
+}
+
+interface LabCard {
+  tag: string;
+  title: Localized<string>;
+  stack: string[];
+  log: string[];
+}
+
+interface ContactErrors {
+  rate_limited: string;
+  bad_email: string;
+  bad_message: string;
+  bad_name: string;
+  invalid_json: string;
+  server_not_configured: string;
+  send_failed: string;
+  network_error: string;
+  generic: string;
+}
+
+interface ContactContent {
+  title: string;
+  sub: string;
+  fields: { name: string; email: string; message: string };
+  send: string;
+  sent: string;
+  errors: ContactErrors;
+}
+
+interface FooterContent {
+  built: string;
+  rights: string;
+}
+
+export interface PortfolioContent {
+  meta: MetaContent;
+  nav: Localized<NavLabels>;
+  hero: Localized<HeroContent>;
+  about: Localized<AboutContent>;
+  skills: { groups: SkillGroup[] };
+  experience: ExperienceEntry[];
+  projects: Project[];
+  lab: LabCard[];
+  contact: Localized<ContactContent>;
+  footer: Localized<FooterContent>;
+}
+
+export const content: PortfolioContent = {
   meta: {
     name: "Kien Duong",
-    handle: "kiendt",
     titleEn: "Senior Frontend Engineer",
     titleVi: "Kỹ sư Frontend Senior",
     location: "Hanoi, Vietnam",
@@ -13,7 +150,7 @@ window.PORTFOLIO_CONTENT = {
     github: "bigbearman",
     linkedin: "kien-duong-fullstack",
     yearsExp: 10,
-    resumeUrl: "Kien_Duong_CV.pdf",
+    resumeUrl: "/Kien_Duong_CV.pdf",
   },
 
   nav: {
@@ -180,28 +317,51 @@ window.PORTFOLIO_CONTENT = {
   experience: [
     {
       role: {
-        en: "Senior Frontend Engineer · Freelance",
-        vi: "Senior Frontend Engineer · Freelance",
+        en: "Senior Frontend Developer",
+        vi: "Senior Frontend Developer",
       },
-      org: "Self-employed",
-      where: "Remote",
-      period: { en: "Nov 2022 — Present", vi: "11/2022 — nay" },
-      duration: { en: "2 yrs 7 mos", vi: "2 năm 7 tháng" },
-      tag: "current",
+      org: "Lab3",
+      where: "Hanoi",
+      period: { en: "Nov 2022 — Mar 2026", vi: "11/2022 — 3/2026" },
+      duration: { en: "3 yrs 5 mos", vi: "3 năm 5 tháng" },
       bullets: {
         en: [
-          "Built and optimized production web apps with React, Next.js, TypeScript, and TailwindCSS for clients across industries.",
-          "Developed an AI chatbot platform for healthcare — React frontend, Laravel backend, pgvector for semantic search.",
-          "Built autonomous AI agent systems for dev workflow automation using Claude API, NestJS, BullMQ, and Redis.",
-          "Achieved Lighthouse scores above 90 (performance, a11y, SEO) across multiple client projects.",
-          "Shipped end-to-end independently — architecture, API integration, deployment on Vercel and GCP.",
+          "Core frontend engineer across Lab3's Web3 product suite — whales.market (decentralized OTC pre-market trading), Whales Predict, and mention.network — built with React, Next.js, and TypeScript.",
+          "Shipped the memePire mobile app with React Native, delivering a shared codebase and consistent UX across iOS and Android.",
+          "Built reusable UI component libraries and frontend architecture patterns adopted across multiple concurrent products, cutting project setup and onboarding time by ~50%.",
+          "Optimized client-facing apps to Lighthouse scores of 90+ in performance, accessibility, and SEO, reducing average page load time by ~40% vs. baseline.",
+          "Worked in a fast-paced crypto product environment with rapid release cycles, real-time market data, and close collaboration with backend and smart-contract teams.",
         ],
         vi: [
-          "Xây dựng và tối ưu web app production với React, Next.js, TypeScript và TailwindCSS cho clients trong nhiều ngành.",
-          "Phát triển chatbot AI cho healthcare — frontend React, backend Laravel, pgvector cho semantic search.",
-          "Xây dựng hệ thống AI agent tự động cho workflow dev dùng Claude API, NestJS, BullMQ và Redis.",
-          "Đạt điểm Lighthouse trên 90 (hiệu năng, a11y, SEO) trên nhiều dự án client.",
-          "Ship end-to-end độc lập — kiến trúc, tích hợp API, deploy trên Vercel và GCP.",
+          "Frontend engineer nòng cốt cho bộ sản phẩm Web3 của Lab3 — whales.market (sàn OTC pre-market phi tập trung), Whales Predict và mention.network — xây bằng React, Next.js và TypeScript.",
+          "Ship app mobile memePire với React Native, dùng chung codebase và UX nhất quán trên cả iOS và Android.",
+          "Xây dựng thư viện UI component và pattern kiến trúc frontend tái sử dụng, áp dụng cho nhiều sản phẩm chạy song song, giảm ~50% thời gian setup và onboarding dự án.",
+          "Tối ưu các app client lên điểm Lighthouse 90+ (hiệu năng, a11y, SEO), giảm ~40% thời gian tải trang trung bình so với baseline.",
+          "Làm việc trong môi trường sản phẩm crypto nhịp độ nhanh, chu kỳ release gấp, dữ liệu thị trường real-time, phối hợp chặt với team backend và smart-contract.",
+        ],
+      },
+    },
+    {
+      role: {
+        en: "Full-Stack Developer (Remote, in parallel)",
+        vi: "Full-Stack Developer (Remote, song song)",
+      },
+      org: "HealthImpact",
+      where: "Remote",
+      period: { en: "Jan 2024 — Jun 2026", vi: "1/2024 — 6/2026" },
+      duration: { en: "2 yrs 6 mos", vi: "2 năm 6 tháng" },
+      bullets: {
+        en: [
+          "Architected and shipped an AI-powered healthcare chatbot platform (React + Laravel + pgvector) serving 100–500 active users/month, with semantic search over patient records and clinical trial data.",
+          "Built and maintained the backend REST APIs and third-party integrations powering the platform, with asynchronous processing for embedding generation and data synchronization.",
+          "Owned delivery end-to-end: system design, API development, CI/CD pipeline setup, and deployment on Vercel and GCP — through to production support.",
+          "Maintained production stability and delivery velocity while working asynchronously alongside a full-time role — strong self-management and ownership.",
+        ],
+        vi: [
+          "Kiến trúc và ship nền tảng chatbot AI cho healthcare (React + Laravel + pgvector), phục vụ 100–500 active user/tháng, semantic search trên hồ sơ bệnh nhân và dữ liệu thử nghiệm lâm sàng.",
+          "Xây dựng và bảo trì REST API backend cùng các tích hợp bên thứ ba, xử lý bất đồng bộ cho sinh embedding và đồng bộ dữ liệu.",
+          "Chịu trách nhiệm end-to-end: thiết kế hệ thống, phát triển API, setup CI/CD, deploy trên Vercel và GCP — đến tận production support.",
+          "Giữ ổn định production và tốc độ delivery trong khi làm bất đồng bộ song song với công việc full-time — tinh thần tự quản lý và ownership cao.",
         ],
       },
     },
@@ -277,30 +437,36 @@ window.PORTFOLIO_CONTENT = {
         vi: "Nền tảng chatbot AI cho bệnh nhân ung thư. Kết hợp pgvector semantic search để ghép người dùng với thử nghiệm lâm sàng phù hợp, giải thích kết quả bằng ngôn ngữ đơn giản.",
       },
       screenshots: [
-        "screenshots/healthimpact-chat.png",
-        "screenshots/healthimpact-trials.png",
-        "screenshots/healthimpact-profile.png",
-        "screenshots/healthimpact-register.png",
+        {
+          src: "/screenshots/healthimpact-chat.png",
+          alt: {
+            en: "HealthImpact.AI chat screen matching a patient to a clinical trial",
+            vi: "Màn hình chat HealthImpact.AI ghép bệnh nhân với thử nghiệm lâm sàng",
+          },
+        },
+        {
+          src: "/screenshots/healthimpact-trials.png",
+          alt: {
+            en: "List of matched clinical trials in HealthImpact.AI",
+            vi: "Danh sách thử nghiệm lâm sàng phù hợp trong HealthImpact.AI",
+          },
+        },
+        {
+          src: "/screenshots/healthimpact-profile.png",
+          alt: {
+            en: "Patient profile screen in HealthImpact.AI",
+            vi: "Màn hình hồ sơ bệnh nhân trong HealthImpact.AI",
+          },
+        },
+        {
+          src: "/screenshots/healthimpact-register.png",
+          alt: {
+            en: "Registration screen for HealthImpact.AI",
+            vi: "Màn hình đăng ký của HealthImpact.AI",
+          },
+        },
       ],
       year: 2025,
-    },
-    {
-      status: "placeholder",
-      name: "Project Two",
-      stack: ["Next.js", "TypeScript", "Vercel"],
-      blurb: {
-        en: "Case study coming soon — drop a project description here.",
-        vi: "Case study sắp ra mắt — thêm mô tả dự án ở đây.",
-      },
-    },
-    {
-      status: "placeholder",
-      name: "Project Three",
-      stack: ["React", "Node.js", "PostgreSQL"],
-      blurb: {
-        en: "Case study coming soon — drop a project description here.",
-        vi: "Case study sắp ra mắt — thêm mô tả dự án ở đây.",
-      },
     },
   ],
 
@@ -360,6 +526,18 @@ window.PORTFOLIO_CONTENT = {
       },
       send: "send message",
       sent: "message sent. talk soon →",
+      errors: {
+        rate_limited: "Too many tries — please wait a minute.",
+        bad_email: "That email doesn't look right.",
+        bad_message: "Message is too short or too long.",
+        bad_name: "Please enter your name.",
+        invalid_json: "Couldn't read that — please try again.",
+        server_not_configured:
+          "Server isn't configured yet — try email instead.",
+        send_failed: "Couldn't deliver. Please email me directly.",
+        network_error: "Network error. Please try again.",
+        generic: "Something went wrong. Please try again.",
+      },
     },
     vi: {
       title: "Cùng trao đổi nhé",
@@ -371,6 +549,18 @@ window.PORTFOLIO_CONTENT = {
       },
       send: "gửi tin nhắn",
       sent: "đã gửi. mình sẽ phản hồi sớm →",
+      errors: {
+        rate_limited: "Gửi quá nhanh — anh đợi 1 phút rồi thử lại nhé.",
+        bad_email: "Email chưa đúng định dạng.",
+        bad_message: "Nội dung quá ngắn hoặc quá dài.",
+        bad_name: "Anh nhập tên giúp em nhé.",
+        invalid_json: "Không đọc được dữ liệu — anh thử lại nhé.",
+        server_not_configured:
+          "Server chưa cấu hình xong — anh gửi mail trực tiếp giúp em nhé.",
+        send_failed: "Không gửi được. Anh email trực tiếp giúp em nhé.",
+        network_error: "Lỗi mạng. Anh thử lại nhé.",
+        generic: "Có lỗi xảy ra. Anh thử lại nhé.",
+      },
     },
   },
 

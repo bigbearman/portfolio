@@ -27,8 +27,9 @@ git push -u origin main
    **Connect to Git** → chọn repo
 2. Build settings:
    - Framework preset: **None**
-   - Build command: *(để trống)*
-   - Build output directory: `/`
+   - Build command: `npm run build`
+   - Build output directory: `out`
+   - Node version: 22 (xem `.node-version`)
 3. **Save and Deploy**
 
 ## 4. Thêm environment variables
@@ -72,23 +73,24 @@ Project → **Custom domains** → **Set up a custom domain** → nhập `kiendt
 
 - `functions/api/contact.js` — Cloudflare Pages Function: validate, rate-limit 5 req/phút/IP,
   honeypot chống bot, forward qua Resend, reply-to là email khách.
-- `app.jsx` — Form đã wire fetch `/api/contact`, có loading state, error messages
+- `components/ContactForm.tsx` — Form đã wire fetch `/api/contact`, có loading state, error messages
   song ngữ EN/VI, disable input khi đang gửi.
 
 ## Nếu chạy local để test
 
-Cloudflare Pages Functions không chạy được khi mở file `index.html` trực tiếp
-(form sẽ báo lỗi network). Cách test local:
+Cloudflare Pages Functions không chạy được với `next dev` (form sẽ báo lỗi
+network). Cách test local:
 
 ```bash
-npx wrangler@latest pages dev .
+npm run build
+npx wrangler@latest pages dev out
 ```
 
 Lệnh này serve site + functions ở `http://localhost:8788`.
 Set env tạm thời:
 
 ```bash
-RESEND_API_KEY=re_xxx TO_EMAIL=ban@gmail.com npx wrangler pages dev .
+RESEND_API_KEY=re_xxx TO_EMAIL=ban@gmail.com npx wrangler pages dev out
 ```
 
 ## Troubleshooting
