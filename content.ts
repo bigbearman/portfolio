@@ -85,6 +85,7 @@ interface ProjectScreenshot {
 interface Project {
   status?: "in-progress";
   name: string;
+  url?: string;
   stack: string[];
   blurb: Localized<string>;
   screenshots?: ProjectScreenshot[];
@@ -463,6 +464,80 @@ export const content: PortfolioContent = {
           alt: {
             en: "Registration screen for HealthImpact.AI",
             vi: "Màn hình đăng ký của HealthImpact.AI",
+          },
+        },
+      ],
+      year: 2025,
+    },
+    {
+      name: "Whales Market",
+      url: "https://whales.market",
+      stack: ["React", "Next.js", "TypeScript"],
+      blurb: {
+        en: "Decentralized pre-market OTC exchange for trading tokens before they list. Frontend engineer on the trading dashboard, order book, and settlement flows.",
+        vi: "Sàn OTC pre-market phi tập trung để giao dịch token trước khi niêm yết. Frontend engineer cho dashboard giao dịch, order book và luồng settlement.",
+      },
+      screenshots: [
+        {
+          src: "/screenshots/whales-market-dashboard.jpg",
+          alt: {
+            en: "Whales Market live pre-market dashboard with token order book",
+            vi: "Dashboard pre-market trực tiếp của Whales Market với order book token",
+          },
+        },
+      ],
+      year: 2025,
+    },
+    {
+      name: "Mention Network",
+      url: "https://mention.network",
+      stack: ["React", "Next.js", "TypeScript", "Shopify"],
+      blurb: {
+        en: "AI visibility (GEO) platform for Shopify resellers — checks whether AI assistants recommend a store, audits the product page against 40 signals, and deploys fixes in one click.",
+        vi: "Nền tảng AI visibility (GEO) cho Shopify reseller — kiểm tra AI assistant có đề xuất store không, audit trang sản phẩm theo 40 tiêu chí, và deploy fix chỉ với một click.",
+      },
+      screenshots: [
+        {
+          src: "/screenshots/mention-network-home.jpg",
+          alt: {
+            en: "Mention Network landing page asking if AI recommends your store",
+            vi: "Trang chủ Mention Network hỏi liệu AI có đề xuất store của bạn không",
+          },
+        },
+      ],
+      year: 2025,
+    },
+    {
+      name: "Whales Predict",
+      stack: ["React", "Next.js", "TypeScript"],
+      blurb: {
+        en: "Prediction market for traders to bet on token and event outcomes. Frontend engineer on pricing logic, risk display, and outcome modeling. Product is currently paused; screenshots are from the design phase.",
+        vi: "Prediction market cho trader đặt cược vào kết quả token và sự kiện. Frontend engineer cho pricing logic, hiển thị risk và outcome modeling. Sản phẩm hiện tạm dừng; ảnh chụp từ giai đoạn thiết kế.",
+      },
+      screenshots: [
+        {
+          src: "/screenshots/whales-predict-design.png",
+          alt: {
+            en: "Whales Predict design mockup showing trending prediction markets",
+            vi: "Mockup thiết kế Whales Predict với danh sách prediction market xu hướng",
+          },
+        },
+      ],
+      year: 2025,
+    },
+    {
+      name: "memePire",
+      stack: ["React Native", "TypeScript", "Solana"],
+      blurb: {
+        en: "Mobile-first meme coin trading app for Solana with smart-money signals and one-tap copy trading. Built the full React Native product across iOS and Android. Project has since stopped; screenshots are from the design phase.",
+        vi: "App mobile-first giao dịch meme coin trên Solana với smart-money signal và copy trading một chạm. Xây toàn bộ product React Native trên cả iOS và Android. Project đã dừng; ảnh chụp từ giai đoạn thiết kế.",
+      },
+      screenshots: [
+        {
+          src: "/screenshots/memepire-design.png",
+          alt: {
+            en: "memePire mobile app design showing top-pick tokens and trading feed",
+            vi: "Thiết kế app mobile memePire với danh sách token nổi bật và feed giao dịch",
           },
         },
       ],

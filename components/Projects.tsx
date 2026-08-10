@@ -46,7 +46,15 @@ export default function Projects({ lang }: { lang: Lang }) {
                         ? "shipped"
                         : "đã ra mắt"}
                   </div>
-                  <h3 className="proj__title">{p.name}</h3>
+                  <h3 className="proj__title">
+                    {p.url ? (
+                      <a href={p.url} target="_blank" rel="noopener noreferrer">
+                        {p.name}
+                      </a>
+                    ) : (
+                      p.name
+                    )}
+                  </h3>
                   <p className="proj__blurb">{p.blurb[lang]}</p>
                   <div className="proj__stack chips">
                     {p.stack.map((s) => (
