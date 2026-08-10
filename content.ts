@@ -85,8 +85,11 @@ interface ProjectScreenshot {
 interface Project {
   status?: "in-progress";
   name: string;
+  url?: string;
   stack: string[];
   blurb: Localized<string>;
+  scope?: Localized<string[]>;
+  impact?: Localized<string[]>;
   screenshots?: ProjectScreenshot[];
   year?: number;
 }
@@ -431,10 +434,33 @@ export const content: PortfolioContent = {
     {
       status: "in-progress",
       name: "HealthImpact.AI — Clinical Trial Matching",
+      url: "https://demo.healthimpact.ai/",
       stack: ["React", "Laravel", "pgvector", "Claude API"],
       blurb: {
         en: "AI chatbot platform for cancer patients. Matches users to relevant clinical trials using pgvector semantic search, explains results in plain language, and handles medical document uploads.",
         vi: "Nền tảng chatbot AI cho bệnh nhân ung thư. Kết hợp pgvector semantic search để ghép người dùng với thử nghiệm lâm sàng phù hợp, giải thích kết quả bằng ngôn ngữ đơn giản.",
+      },
+      scope: {
+        en: [
+          "Built the chat interface and clinical-trial matching flow in React",
+          "Integrated pgvector semantic search and Claude API for plain-language trial explanations",
+          "Owned deployment on Vercel and GCP, plus CI/CD setup",
+        ],
+        vi: [
+          "Xây dựng giao diện chat và luồng ghép thử nghiệm lâm sàng bằng React",
+          "Tích hợp pgvector semantic search và Claude API để giải thích kết quả bằng ngôn ngữ đơn giản",
+          "Phụ trách deploy trên Vercel và GCP, cùng setup CI/CD",
+        ],
+      },
+      impact: {
+        en: [
+          "Serving 100–500 active users per month",
+          "Matches patients to relevant clinical trials using semantic search over trial data",
+        ],
+        vi: [
+          "Phục vụ 100–500 active user mỗi tháng",
+          "Ghép bệnh nhân với thử nghiệm lâm sàng phù hợp bằng semantic search",
+        ],
       },
       screenshots: [
         {
@@ -463,6 +489,154 @@ export const content: PortfolioContent = {
           alt: {
             en: "Registration screen for HealthImpact.AI",
             vi: "Màn hình đăng ký của HealthImpact.AI",
+          },
+        },
+      ],
+      year: 2025,
+    },
+    {
+      name: "Whales Market",
+      url: "https://whales.market",
+      stack: ["React", "Next.js", "TypeScript"],
+      blurb: {
+        en: "Decentralized pre-market OTC exchange for trading tokens before they list. Frontend engineer on the trading dashboard, order book, and settlement flows.",
+        vi: "Sàn OTC pre-market phi tập trung để giao dịch token trước khi niêm yết. Frontend engineer cho dashboard giao dịch, order book và luồng settlement.",
+      },
+      scope: {
+        en: [
+          "Built the live trading dashboard, order book, and market list UI",
+          "Implemented settlement flows and real-time price/volume updates",
+        ],
+        vi: [
+          "Xây dashboard giao dịch trực tiếp, order book và danh sách thị trường",
+          "Triển khai luồng settlement và cập nhật giá/khối lượng real-time",
+        ],
+      },
+      impact: {
+        en: [
+          "Live product processing real pre-market OTC volume across dozens of tokens",
+        ],
+        vi: [
+          "Sản phẩm live xử lý khối lượng giao dịch OTC pre-market thật trên hàng chục token",
+        ],
+      },
+      screenshots: [
+        {
+          src: "/screenshots/whales-market-dashboard.jpg",
+          alt: {
+            en: "Whales Market live pre-market dashboard with token order book",
+            vi: "Dashboard pre-market trực tiếp của Whales Market với order book token",
+          },
+        },
+      ],
+      year: 2025,
+    },
+    {
+      name: "Mention Network",
+      url: "https://mention.network",
+      stack: ["React", "Next.js", "TypeScript", "Shopify"],
+      blurb: {
+        en: "AI visibility (GEO) platform for Shopify resellers — checks whether AI assistants recommend a store, audits the product page against 40 signals, and deploys fixes in one click.",
+        vi: "Nền tảng AI visibility (GEO) cho Shopify reseller — kiểm tra AI assistant có đề xuất store không, audit trang sản phẩm theo 40 tiêu chí, và deploy fix chỉ với một click.",
+      },
+      scope: {
+        en: [
+          "Built the Shopify-embedded audit UI — AI visibility check, 40-signal product page score, and one-click fix flow",
+          "Built the merchant-facing dashboard showing AI mention share vs. competitors",
+        ],
+        vi: [
+          "Xây UI audit nhúng trong Shopify — check AI visibility, chấm điểm trang sản phẩm theo 40 tiêu chí, và luồng fix một click",
+          "Xây dashboard cho merchant hiển thị tỷ lệ được AI nhắc tới so với đối thủ",
+        ],
+      },
+      impact: {
+        en: [
+          "Free product check and audit drive signup; merchants apply fixes without leaving Shopify admin",
+        ],
+        vi: [
+          "Free check và audit dẫn dắt signup; merchant apply fix không cần rời khỏi Shopify admin",
+        ],
+      },
+      screenshots: [
+        {
+          src: "/screenshots/mention-network-home.jpg",
+          alt: {
+            en: "Mention Network landing page asking if AI recommends your store",
+            vi: "Trang chủ Mention Network hỏi liệu AI có đề xuất store của bạn không",
+          },
+        },
+      ],
+      year: 2025,
+    },
+    {
+      name: "Whales Predict",
+      stack: ["React", "Next.js", "TypeScript"],
+      blurb: {
+        en: "Prediction market for traders to forecast token and event outcomes. Frontend engineer on pricing logic, risk display, and outcome modeling. Product is currently paused; screenshots are from the design phase.",
+        vi: "Prediction market cho trader dự đoán kết quả token và sự kiện. Frontend engineer cho pricing logic, hiển thị risk và outcome modeling. Sản phẩm hiện tạm dừng; ảnh chụp từ giai đoạn thiết kế.",
+      },
+      scope: {
+        en: [
+          "Built the prediction market UI — pricing display, risk indicators, and outcome modeling",
+          "Optimized the trading flow for fast decisions under volatile market conditions",
+        ],
+        vi: [
+          "Xây UI prediction market — hiển thị giá, chỉ báo rủi ro và outcome modeling",
+          "Tối ưu luồng giao dịch cho quyết định nhanh trong thị trường biến động",
+        ],
+      },
+      impact: {
+        en: [
+          "Ran in private beta with power users; public launch was planned before the product paused",
+        ],
+        vi: [
+          "Chạy private beta với power user; public launch đã lên kế hoạch trước khi sản phẩm tạm dừng",
+        ],
+      },
+      screenshots: [
+        {
+          src: "/screenshots/whales-predict-design.png",
+          alt: {
+            en: "Whales Predict design mockup showing trending prediction markets",
+            vi: "Mockup thiết kế Whales Predict với danh sách prediction market xu hướng",
+          },
+        },
+      ],
+      year: 2025,
+    },
+    {
+      name: "memePire",
+      stack: ["React Native", "TypeScript", "Solana"],
+      blurb: {
+        en: "Mobile-first meme coin trading app for Solana with smart-money signals and one-tap copy trading. Built the full React Native product across iOS and Android. Project has since stopped; screenshots are from the design phase.",
+        vi: "App mobile-first giao dịch meme coin trên Solana với smart-money signal và copy trading một chạm. Xây toàn bộ product React Native trên cả iOS và Android. Project đã dừng; ảnh chụp từ giai đoạn thiết kế.",
+      },
+      scope: {
+        en: [
+          "Built the Smart Money feed and copy-trade bot management screens",
+          "Built the Discover tab, portfolio tracking, and transaction flows with slippage control",
+          "Shipped as a single React Native codebase across iOS and Android",
+        ],
+        vi: [
+          "Xây màn hình Smart Money feed và quản lý copy-trade bot",
+          "Xây tab Discover, portfolio tracking và luồng giao dịch với slippage control",
+          "Ship bằng một codebase React Native chung cho cả iOS và Android",
+        ],
+      },
+      impact: {
+        en: [
+          "Combined meme-coin discovery, signals, and copy trading into a single mobile flow before the project stopped",
+        ],
+        vi: [
+          "Gộp discovery meme coin, signal và copy trading vào một luồng mobile duy nhất trước khi project dừng",
+        ],
+      },
+      screenshots: [
+        {
+          src: "/screenshots/memepire-design.png",
+          alt: {
+            en: "memePire mobile app design showing top-pick tokens and trading feed",
+            vi: "Thiết kế app mobile memePire với danh sách token nổi bật và feed giao dịch",
           },
         },
       ],
