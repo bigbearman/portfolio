@@ -687,6 +687,22 @@ export const content: PortfolioContent = {
         "wins: route-level code split, image LQIP, font subsets",
       ],
     },
+    {
+      tag: "meta",
+      title: {
+        en: "This site, shipped with an AI coding agent",
+        vi: "Chính site này, build với AI coding agent",
+      },
+      stack: ["Claude Code", "Next.js", "Cloudflare"],
+      log: [
+        "$ rebuild portfolio --from static-html --to next.js",
+        "i18n routing, content model, 5 sections → reviewed & merged in PRs",
+        "$ diagnose deploy: git push + wrangler CLI (dual path, broken)",
+        "fixed → Cloudflare Pages Git integration, single source of truth",
+        "$ waf add-rule block /wp-admin/* xmlrpc.php *.php && bot-fight-mode on",
+        "scanner noise → blocked at the edge ✓",
+      ],
+    },
   ],
 
   contact: {
